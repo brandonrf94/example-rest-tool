@@ -16,7 +16,16 @@ const formatBytes = (value: number) => {
 }
 
 const copyText = async (value: string) => {
-  await navigator.clipboard.writeText(value)
+  if (!value) {
+    return false
+  }
+
+  try {
+    await navigator.clipboard.writeText(value)
+    return true
+  } catch {
+    return false
+  }
 }
 
 export function ResponsePanel({ response, error, isSending }: ResponsePanelProps) {
@@ -44,13 +53,21 @@ export function ResponsePanel({ response, error, isSending }: ResponsePanelProps
   }, [response])
 
   const handleCopyBody = async () => {
-    await copyText(formattedBody)
+    const copied = await copyText(formattedBody)
+    if (!copied) {
+      return
+    }
+
     setCopiedBody(true)
     window.setTimeout(() => setCopiedBody(false), 1600)
   }
 
   const handleCopyHeaders = async () => {
-    await copyText(headerText)
+    const copied = await copyText(headerText)
+    if (!copied) {
+      return
+    }
+
     setCopiedHeaders(true)
     window.setTimeout(() => setCopiedHeaders(false), 1600)
   }
@@ -102,9 +119,9 @@ export function ResponsePanel({ response, error, isSending }: ResponsePanelProps
             <div className="section-heading">
               <div>
                 <h3>Response Body</h3>
-                <p className="muted-copy">{response.contentType || 'Unknown content type'}</p>
+                <p className="muted-copy section-copy">{response.contentType || 'Unknown content type'}</p>
               </div>
-              <button className="secondary-button" onClick={handleCopyBody} type="button">
+              <button className="secondary-button compact-button" onClick={handleCopyBody} type="button">
                 {copiedBody ? 'Copied' : 'Copy body'}
               </button>
             </div>
@@ -116,9 +133,9 @@ export function ResponsePanel({ response, error, isSending }: ResponsePanelProps
               <div className="section-heading">
                 <div>
                   <h3>Headers</h3>
-                  <p className="muted-copy">{response.headers.length} returned</p>
+                  <p className="muted-copy section-copy">{response.headers.length} returned</p>
                 </div>
-                <button className="secondary-button" onClick={handleCopyHeaders} type="button">
+                <button className="secondary-button compact-button" onClick={handleCopyHeaders} type="button">
                   {copiedHeaders ? 'Copied' : 'Copy headers'}
                 </button>
               </div>
@@ -129,7 +146,7 @@ export function ResponsePanel({ response, error, isSending }: ResponsePanelProps
               <div className="section-heading">
                 <div>
                   <h3>Summary</h3>
-                  <p className="muted-copy">Quick request diagnostics.</p>
+                  <p className="muted-copy section-copy">Quick request diagnostics.</p>
                 </div>
               </div>
               <dl className="summary-list">

@@ -22,12 +22,12 @@ export function HistoryPanel({ history, onLoadRequest, onClear }: HistoryPanelPr
           <p className="eyebrow">Recent Requests</p>
           <h2>Local history</h2>
         </div>
-        <button className="secondary-button" onClick={onClear} type="button">
+        <button className="secondary-button compact-button" onClick={onClear} type="button">
           Clear history
         </button>
       </div>
 
-      <p className="muted-copy">
+      <p className="muted-copy section-copy">
         Requests are stored in this browser only. Nothing syncs to GitHub or a server.
       </p>
 

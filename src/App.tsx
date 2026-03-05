@@ -23,6 +23,8 @@ import type {
   ThemeMode,
 } from './types/api'
 
+const formatJsonBody = (body: string) => JSON.stringify(JSON.parse(body), null, 2)
+
 const createPair = (): KeyValuePair => ({
   id: crypto.randomUUID(),
   key: '',
@@ -68,6 +70,7 @@ function App() {
   }, [history])
 
   const updateDraft = (updater: (current: RequestDraft) => RequestDraft) => {
+    setRequestError(null)
     setDraft((current) => updater(current))
   }
 
@@ -115,7 +118,7 @@ function App() {
     }
 
     try {
-      const formatted = JSON.stringify(JSON.parse(draft.body), null, 2)
+      const formatted = formatJsonBody(draft.body)
       updateDraft((current) => ({ ...current, body: formatted }))
     } catch {
       // Keep the raw body untouched until the user explicitly sends or formats it.
@@ -128,7 +131,7 @@ function App() {
     }
 
     try {
-      const formatted = JSON.stringify(JSON.parse(draft.body), null, 2)
+      const formatted = formatJsonBody(draft.body)
       updateDraft((current) => ({ ...current, body: formatted }))
       setRequestError(null)
     } catch {
@@ -196,7 +199,7 @@ function App() {
 
   const headerSubtitle = useMemo(
     () =>
-      'Browser-first REST client for public APIs, local services, and any endpoint with CORS enabled.',
+      'A browser-first client for public APIs, local services, and any endpoint with CORS enabled.',
     [],
   )
 
@@ -206,15 +209,11 @@ function App() {
         <>
           <div>
             <p className="eyebrow">GitHub Pages REST Client</p>
-            <h1>Send REST requests from a static page.</h1>
+            <h1>Send REST requests without leaving the browser.</h1>
             <p className="toolbar-copy">{headerSubtitle}</p>
           </div>
           <div className="toolbar-actions">
-            <div className="badge-row">
-              <span className="badge-pill">No backend</span>
-              <span className="badge-pill">Local history</span>
-              <span className="badge-pill">CORS-aware</span>
-            </div>
+            <p className="toolbar-note">Static app. Local history. Browser CORS rules apply.</p>
             <button className="secondary-button" onClick={handleThemeToggle} type="button">
               {theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
             </button>

@@ -48,7 +48,7 @@ function PairEditor({
       <div className="section-heading">
         <div>
           <h2>{label}</h2>
-          <p className="muted-copy">Toggle rows on and off without deleting them.</p>
+          <p className="muted-copy section-copy">Toggle rows on and off without deleting them.</p>
         </div>
         <button className="secondary-button" onClick={onAdd} type="button">
           {addLabel}
@@ -82,11 +82,11 @@ function PairEditor({
             />
             <button
               aria-label={`Remove ${label} row`}
-              className="ghost-button"
+              className="ghost-button compact-button"
               onClick={() => onRemove(item.id)}
               type="button"
             >
-              Remove
+              Delete
             </button>
           </div>
         ))}
@@ -120,7 +120,7 @@ export function RequestPanel({
           <p className="eyebrow">Request Builder</p>
           <h2>Compose the request</h2>
         </div>
-        <span className="helper-copy">Runs with browser `fetch()`.</span>
+        <span className="helper-copy">Browser `fetch()`</span>
       </div>
 
       <div className="request-bar">
@@ -148,7 +148,7 @@ export function RequestPanel({
         </button>
       </div>
 
-      <div className="info-callout">
+      <div className="info-callout compact-callout">
         This app runs entirely on GitHub Pages, so the target API must allow CORS and any token
         you use must be pasted in at runtime.
       </div>
@@ -215,7 +215,7 @@ export function RequestPanel({
           value={draft.body}
         />
         {draft.method === 'GET' ? (
-          <p className="muted-copy">`GET` requests ignore the body editor in the browser.</p>
+          <p className="muted-copy section-copy">`GET` requests ignore the body editor in the browser.</p>
         ) : null}
       </section>
     </div>
